@@ -6,3 +6,4 @@ eggs/
 src/
 var/
 .idea
+erl_crash.dump
