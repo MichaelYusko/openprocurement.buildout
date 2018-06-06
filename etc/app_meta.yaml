@@ -1,0 +1,33 @@
+---
+plugins:
+  api: null
+  auctions.core:
+      plugins:
+        auctions.rubble.financial:
+          aliases: [kk]
+          use_default: true
+          migration: false
+        auctions.rubble.other:
+          aliases: []
+          use_default: true
+          migration: false
+  assets.core:
+    plugins:
+      assets.bounce:
+        aliases: []
+        use_default: true
+        migration: false
+  lots.core:
+    plugins:
+      lots.loki:
+        aliases: []
+        use_default: true
+        migration: false
+config:
+  auth:
+    src: auth.ini
+    type: file
+  db:
+    type: couchdb
+    db_name: openprocurement
+    url: http://127.0.0.1:5984/

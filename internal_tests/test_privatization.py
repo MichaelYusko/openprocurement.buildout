@@ -45,31 +45,6 @@ test_asset_data = {
 }
 
 
-def patch_data(client, resource_id, data,
-               sub_name, sub_id, access_token):
-    """Update an data, for specify resource
-
-    Args:
-        client  resource client, for example LotsClient class
-        resource_id  resource ID, which will be updated
-        data  dictionary with an data
-        sub_name name of a sub_name resource
-        sub_id id of a sub_resource
-        access_token Access token for a client
-
-    Returns:
-        None
-    """
-    client.patch_resource_item_subitem(
-        resource_item_id=resource_id,
-        patch_data=data,
-        subitem_name=sub_name,
-        subitem_id=sub_id,
-        access_token=access_token
-
-    )
-
-
 class LotStatusFlowTest(unittest.TestCase):
     def setUp(self):
         self.lots_client = LotsClient(
@@ -96,21 +71,19 @@ class LotStatusFlowTest(unittest.TestCase):
         test_auction_one = test_auctions[0]
         test_auction_two = test_auctions[1]
 
-        patch_data(
-            client=self.lots_client,
-            resource_id=lot.data.id,
-            data={'data': auction_english_data},
-            sub_name='auctions',
-            sub_id=test_auction_one.id,
+        self.lots_client.patch_resource_item_subitem(
+            resource_item_id=lot.data.id,
+            patch_data={'data': auction_english_data},
+            subitem_name='auctions',
+            subitem_id=test_auction_one.id,
             access_token=lot.access.token
         )
 
-        patch_data(
-            client=self.lots_client,
-            resource_id=lot.data.id,
-            data={'data': auction_second_english_data},
-            sub_name='auctions',
-            sub_id=test_auction_two.id,
+        self.lots_client.patch_resource_item_subitem(
+            resource_item_id=lot.data.id,
+            patch_data={'data': auction_second_english_data},
+            subitem_name='auctions',
+            subitem_id=test_auction_two.id,
             access_token=lot.access.token
         )
 

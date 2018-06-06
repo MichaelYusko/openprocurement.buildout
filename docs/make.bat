@@ -5,9 +5,9 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
-set BUILDDIR=/home/leits/op/buildouts/ea_core_buildout/docs
-set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% /home/leits/op/buildouts/ea_core_buildout/src/openprocurement.api/docs/source
-set I18NSPHINXOPTS=%SPHINXOPTS% /home/leits/op/buildouts/ea_core_buildout/src/openprocurement.api/docs/source
+set BUILDDIR=/home/kenkaneki/Programming/projects/openprocurement.buildout/docs
+set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% /home/kenkaneki/Programming/projects/openprocurement.buildout/src/openprocurement.api/docs/source
+set I18NSPHINXOPTS=%SPHINXOPTS% /home/kenkaneki/Programming/projects/openprocurement.buildout/src/openprocurement.api/docs/source
 if NOT "%PAPER%" == "" (
 	set ALLSPHINXOPTS=-D latex_paper_size=%PAPER% %ALLSPHINXOPTS%
 	set I18NSPHINXOPTS=-D latex_paper_size=%PAPER% %I18NSPHINXOPTS%
