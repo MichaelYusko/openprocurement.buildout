@@ -7,3 +7,6 @@ src/
 var/
 .idea
 erl_crash.dump
+docs/Makefile
+docs/make.bat
+etc/
