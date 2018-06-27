@@ -18,7 +18,7 @@ from openregistry.assets.bounce.tests.json_data import (
 # Config for an clients
 config = {
     "url": "http://127.0.0.1:6543",
-    "version": 2.4,
+    "version": 2.5,
     "token": "broker",
 }
 
@@ -43,6 +43,12 @@ test_lot_data = {
 test_asset_data = {
     'data': test_asset_bounce_data
 }
+
+
+def change_status(client, _id, status, token):
+    return client.patch_resource_item(
+        _id, {'data': {'status': status}}, token
+    )
 
 
 class LotStatusFlowTest(unittest.TestCase):
@@ -87,20 +93,14 @@ class LotStatusFlowTest(unittest.TestCase):
             access_token=lot.access.token
         )
 
-        self.assets_client.patch_resource_item(
-            asset.data.id, {'data': {'status': 'pending'}},
-            asset.access.token
-        )
+        asset_data = change_status(self.assets_client, asset.data.id, 'pending', asset.access.token)
+        self.assertEqual(asset_data.data.status, 'pending')
 
-        self.lots_client.patch_resource_item(
-            lot.data.id, {'data': {'status': 'composing'}},
-            lot.access.token
-        )
+        lot_data_one = change_status(self.lots_client, lot.data.id, 'composing', lot.access.token)
+        self.assertEqual(lot_data_one.data.status, 'composing')
 
-        self.lots_client.patch_resource_item(
-            lot.data.id, {'data': {'status': 'verification'}},
-            lot.access.token
-        )
+        lot_data_two = change_status(self.lots_client, lot.data.id, 'verification', lot.access.token)
+        self.assertEqual(lot_data_two.data.status, 'verification')
 
         for _ in range(50):
             print 'Waiting for an concierge changes'
