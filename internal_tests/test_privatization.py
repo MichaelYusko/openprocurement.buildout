@@ -45,12 +45,6 @@ test_asset_data = {
 }
 
 
-def change_status(client, _id, status, token):
-    return client.patch_resource_item(
-        _id, {'data': {'status': status}}, token
-    )
-
-
 class LotStatusFlowTest(unittest.TestCase):
     def setUp(self):
         self.lots_client = LotsClient(
@@ -63,6 +57,12 @@ class LotStatusFlowTest(unittest.TestCase):
             host_url=config['url'],
             api_version=config['version']
         )
+
+    def change_status(self, client, _id, status, token):
+        test_data = client.patch_resource_item(
+            _id, {'data': {'status': status}}, token
+        )
+        self.assertEqual(test_data.data.status, status)
 
     def test_lots_assets_flow(self):
         # Create Asset
@@ -93,14 +93,11 @@ class LotStatusFlowTest(unittest.TestCase):
             access_token=lot.access.token
         )
 
-        asset_data = change_status(self.assets_client, asset.data.id, 'pending', asset.access.token)
-        self.assertEqual(asset_data.data.status, 'pending')
+        self.change_status(self.assets_client, asset.data.id, 'pending', asset.access.token)
 
-        lot_data_one = change_status(self.lots_client, lot.data.id, 'composing', lot.access.token)
-        self.assertEqual(lot_data_one.data.status, 'composing')
+        self.change_status(self.lots_client, lot.data.id, 'composing', lot.access.token)
 
-        lot_data_two = change_status(self.lots_client, lot.data.id, 'verification', lot.access.token)
-        self.assertEqual(lot_data_two.data.status, 'verification')
+        self.change_status(self.lots_client, lot.data.id, 'verification', lot.access.token)
 
         for _ in range(50):
             print 'Waiting for an concierge changes'
